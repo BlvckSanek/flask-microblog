@@ -6,10 +6,10 @@ from app import create_app, db
 from app.models import User, Post
 from config import Config
 
+
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite://"
-
 
 
 class UserModelCase(unittest.TestCase):
@@ -35,7 +35,7 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(u.avatar(128), ("https://www.gravatar.com/avatar/"
                                          "ec37faca638546730c10530c4ce62c76"
                                          "?d=identicon&s=128"))
-        
+
     def test_follow(self):
         u1 = User(username="john", email="john@example.com")
         u2 = User(username="susan", email="susan@example.com")
@@ -66,7 +66,7 @@ class UserModelCase(unittest.TestCase):
     def test_follow_posts(self):
         # create four users
         u1 = User(username="john", email="john@example.com")
-        u2= User(username="susan", email="susan@example.com")
+        u2 = User(username="susan", email="susan@example.com")
         u3 = User(username="mary", email="mary@example.com")
         u4 = User(username="david", email="david@example.com")
         db.session.add_all([u1, u2, u3, u4])
@@ -85,10 +85,10 @@ class UserModelCase(unittest.TestCase):
         db.session.commit()
 
         # setup the followers
-        u1.follow(u2) # john follows susan
-        u1.follow(u4) # john follows david
-        u2.follow(u3) # susan follows mary
-        u3.follow(u4) # mary follows david
+        u1.follow(u2)  # john follows susan
+        u1.follow(u4)  # john follows david
+        u2.follow(u3)  # susan follows mary
+        u3.follow(u4)  # mary follows david
 
         # check the following posts of each other
         f1 = db.session.scalars(u1.following_posts()).all()
@@ -100,6 +100,6 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
 
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
-    
